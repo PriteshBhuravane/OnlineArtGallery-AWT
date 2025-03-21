@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="OnlineArtGallery.Site" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Online Art Gallery</title>
+    <link href="styles.css" rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="header">
+            <h1>Online Art Gallery</h1>
+           <nav>
+    <ul>
+        <li><a href="Home.aspx">Home</a></li>
+        <li><a href="Gallery.aspx">Gallery</a></li>
+        <li><a href="ArtistRegistration.aspx">Artist Registration</a></li>
+        <li><a href="ViewArtists.aspx">View Artists</a></li>
+    </ul>
+</nav>
+        </div>
+        <div class="content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                <!-- Content from other pages will go here -->
+            </asp:ContentPlaceHolder>
+        </div>
+        <div class="footer">
+            <p>&copy; 2023 Online Art Gallery</p>
+        </div>
+    </form>
+</body>
+</html>
