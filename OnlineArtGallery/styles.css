@@ -12,24 +12,24 @@
     text-align: center;
 }
 
-    .header h1 {
+.header h1 {
         margin: 0;
-    }
+}
 
-    .header nav ul {
+.header nav ul {
         list-style: none;
         padding: 0;
-    }
+}
 
-        .header nav ul li {
-            display: inline;
-            margin: 0 10px;
-        }
+.header nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
 
-            .header nav ul li a {
-                color: #fff;
-                text-decoration: none;
-            }
+.header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
 
 .content {
     padding: 20px;
@@ -204,3 +204,68 @@
     justify-content: center;
     overflow: hidden;
 }
+.search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .search-button:hover {
+        background-color: #555;
+    }
+.no-results {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+}
+.action-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-button, .delete-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+    .edit-button:hover {
+        background-color: #45a049;
+    }
+
+.delete-button {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+    .delete-button:hover {
+        background-color: #da190b;
+    }

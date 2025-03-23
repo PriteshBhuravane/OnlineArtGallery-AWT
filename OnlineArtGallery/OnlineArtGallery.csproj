@@ -72,6 +72,7 @@
       <DependentUpon>ArtGalleryDB.mdf</DependentUpon>
     </Content>
     <Content Include="ArtistRegistration.aspx" />
+    <Content Include="EditArtist.aspx" />
     <Content Include="Gallery.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="styles.css" />
@@ -85,6 +86,13 @@
     </Compile>
     <Compile Include="ArtistRegistration.aspx.designer.cs">
       <DependentUpon>ArtistRegistration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditArtist.aspx.cs">
+      <DependentUpon>EditArtist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditArtist.aspx.designer.cs">
+      <DependentUpon>EditArtist.aspx</DependentUpon>
     </Compile>
     <Compile Include="Gallery.aspx.cs">
       <DependentUpon>Gallery.aspx</DependentUpon>

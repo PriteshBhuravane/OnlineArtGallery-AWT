@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -29,18 +30,18 @@ namespace OnlineArtGallery
                 string uploadFolderPath = Server.MapPath("~/Uploads/");
                 if (!Directory.Exists(uploadFolderPath))
                 {
-                    Directory.CreateDirectory(uploadFolderPath); // Create the Uploads folder if it doesn't exist
+                    Directory.CreateDirectory(uploadFolderPath);
                 }
                 string filePath = Path.Combine(uploadFolderPath, artworkFileName);
                 fileArtwork.PostedFile.SaveAs(filePath);
 
-                // Save data to the database
+                // Save data to the database using the stored procedure
                 string connectionString = ConfigurationManager.ConnectionStrings["ArtGalleryDB"].ConnectionString;
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string query = "INSERT INTO Artists (Name, Email, ArtCategory, ArtworkFileName) VALUES (@Name, @Email, @ArtCategory, @ArtworkFileName)";
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand("sp_InsertArtist", connection))
                     {
+                        command.CommandType = CommandType.StoredProcedure; // Specify that this is a stored procedure
                         command.Parameters.AddWithValue("@Name", name);
                         command.Parameters.AddWithValue("@Email", email);
                         command.Parameters.AddWithValue("@ArtCategory", artCategory);
@@ -49,17 +50,9 @@ namespace OnlineArtGallery
                         try
                         {
                             connection.Open();
-                            int rowsAffected = command.ExecuteNonQuery();
-                            if (rowsAffected > 0)
-                            {
-                                lblMessage.Text = "Registration Successful! Thank you for registering.";
-                                lblMessage.ForeColor = System.Drawing.Color.Green;
-                            }
-                            else
-                            {
-                                lblMessage.Text = "Registration failed. No rows were affected.";
-                                lblMessage.ForeColor = System.Drawing.Color.Red;
-                            }
+                            command.ExecuteNonQuery();
+                            lblMessage.Text = "Registration Successful! Thank you for registering.";
+                            lblMessage.ForeColor = System.Drawing.Color.Green;
                         }
                         catch (Exception ex)
                         {

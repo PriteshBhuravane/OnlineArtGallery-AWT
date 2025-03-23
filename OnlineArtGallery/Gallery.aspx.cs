@@ -20,14 +20,29 @@ namespace OnlineArtGallery
             }
         }
 
-        private void BindArtworksData()
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtSearch.Text.Trim();
+            BindArtworksData(searchTerm);
+        }
+
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = "";
+            BindArtworksData();
+        }
+        private void BindArtworksData(string searchTerm = "")
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ArtGalleryDB"].ConnectionString;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT Name, Email, ArtCategory, ArtworkFileName FROM Artists";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("sp_GetAllArtists", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure; // Specify that this is a stored procedure
+
+                    // Add the @SearchTerm parameter
+                    command.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
+
                     try
                     {
                         connection.Open();
@@ -35,16 +50,51 @@ namespace OnlineArtGallery
                         DataTable dt = new DataTable();
                         adapter.Fill(dt);
 
-                        rptArtworks.DataSource = dt;
-                        rptArtworks.DataBind();
+                        if (dt.Rows.Count > 0)
+                        {
+                            rptArtworks.DataSource = dt;
+                            rptArtworks.DataBind();
+                            lblNoResults.Visible = false;
+                        }
+                        else
+                        {
+                            lblNoResults.Visible = true;
+                        }
                     }
                     catch (Exception ex)
                     {
-                        // Handle the exception (e.g., log it or display an error message)
                         Response.Write("Error: " + ex.Message);
                     }
                 }
             }
+        }
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            Button btnEdit = (Button)sender;
+            string artistID = btnEdit.CommandArgument;
+
+            // Redirect to the Edit page with the ArtistID as a query parameter
+            Response.Redirect("EditArtist.aspx?ArtistID=" + artistID);
+        }
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            Button btnDelete = (Button)sender;
+            string artistID = btnDelete.CommandArgument;
+
+            string connectionString = ConfigurationManager.ConnectionStrings["ArtGalleryDB"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM Artists WHERE ArtistID = @ArtistID";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ArtistID", artistID);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            // Refresh the gallery page
+            BindArtworksData();
         }
     }
 }
